@@ -6,32 +6,32 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <section id="LightSide">
-        <div class="Inputs">
-            <div class="Info">
-                <h1>Converting your email list</h1>
-                <h4>Select the correctly formatted email by clicking on a format</h4>
-            </div>
-            <div class="Inputs_input">
-                <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
-                <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
-                <button id="btn_convert" onclick="getMailFormatOptions()">Convert Name</button>
-            </div>
+    <div id="PopUpBox"></div>
+
+
+    <section id="Top">
+        <div class="Left">
+            <h1>Converting your list of contacts into emails</h1>
+            <h4>
+                Please enter the full name and email domain of one of your contacts into the designated input fields.
+                Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
+                copied to your clipboard. To organize your entire contact list, choose the appropriate email address and either
+                upload a CSV file or paste your contacts into the text area on the right.
+            </h4>
+            <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
+            <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
+            <button id="btn_convert" onclick="getMailFormatOptions()">Convert</button>
         </div>
-        <div id="MailFormatsBox">
-            <ul id="MailFormatsContent"></ul>
+        <div class="Right">
+            <input type="file"  id="CSVNames"/>
+            <textarea id="allNames">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
-    <section id="RightSide">
-        <div class="Inputs">
-            <div class="Info">
-                <h4>Paste all other contacts and seperate them with a ', '</h4>
-            </div>
-            <div class="Inputs_input">
-                <textarea id="allNames">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
-            </div>
+    <section id="Bot">
+        <div class="Left" id="MailFormatsBox">
+            <ul id="MailFormatsContent"></ul>
         </div>
-        <div id="CorrMailsBox">
+        <div class="Right" id="CorrMailsBox">
             <ul id="CorrMailsContent"></ul>
         </div>
     </section>
@@ -41,6 +41,35 @@
     const TextBoxContent = document.getElementById('MailFormatsContent');
     const AnswBoxContent = document.getElementById('CorrMailsContent');
     let MailDomain = document.getElementById("InputDomain").value;
+    let counter = true;
+
+    function ArraytoTxt(array) {
+        let txt = '';
+
+        for (let i = 0; i < array.length; i++) {
+            if (i == array.length - 1) {
+                txt += array[i] + '\n';
+            } else {
+                txt += array[i];
+            }
+        }
+
+        return txt
+    }
+
+    function PopUpWindow(DisplayText) {
+        PopUpBox = document.getElementById('PopUpBox');
+        PopUpBox.innerText = DisplayText;
+
+        if (counter) {
+            PopUpBox.style.animation = 'PopUp1 4s';
+            counter = false;
+        }
+        else {
+            PopUpBox.style.animation = 'PopUp2 4s';
+            counter = true;
+        }
+    }
 
     function getAllMailFormats(FullName) {
         let AllMailFormats = {};
@@ -93,20 +122,20 @@
             AllFormattedNames.push(getAllMailFormats(AllNames[FullName].split(' '))[`Type${Type}`])
         }
 
-        const values = Object.keys(AllFormattedNames).map(function (key) { return AllFormattedNames[key] + MailDomain; });
+        const AllCorrMails = Object.keys(AllFormattedNames).map(function (key) { return AllFormattedNames[key] + MailDomain; });
         AnswBoxContent.innerHTML = '';
 
-        for (let value in values) {
+        for (let CorrMail in AllCorrMails) {
             const li_CorrMail = document.createElement('li');
-            li_CorrMail.innerText = values[value];
+            li_CorrMail.innerText = AllCorrMails[CorrMail];
             li_CorrMail.classList.add('CorrMail');
             AnswBoxContent.appendChild(li_CorrMail);
         }
 
 
 
-        navigator.clipboard.writeText(values);
-        alert('All correctly formatted contacts are copied to your clipboard');
+        navigator.clipboard.writeText(ArraytoTxt(AllCorrMails));
+        PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
     }
 
     function createMailFormatsListHTML(AllMailFormats) {
@@ -127,8 +156,7 @@
         const MailFormatOptions = getAllMailFormats(SplittedFullName);
         const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
         createMailFormatsListHTML(AllMailFormats);
-
-        navigator.clipboard.writeText(AllMailFormats);
-        alert('All mail formations are copied to your clipboard');
+        navigator.clipboard.writeText(ArraytoTxt(AllMailFormats));
+        PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
     }
 </script>

@@ -17,80 +17,118 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: var(--main-col1);
-    display:flex;
+    display: contents;
 }
 
-h1{
-    font-size: 1.5vw;
-    line-height: 0;
-}
-h4{
-    font-size: 0.5vw;
-    line-height: 0;
-}
-
-#LightSide {
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-}
-
-#RightSide {
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.Inputs {
-    height: 25%;
-    width: 100%;
-    display: grid;
-}
-
-.Info {
-    width: 100%;
-    height: 100%;
-    display: grid;
-}
-.Info > *{
-    margin: auto;
-}
-
-.Inputs_input {
+section {
     width: 100%;
     height: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     overflow: hidden;
+}
+
+.Left{
+    width: 40%;
+    height: 50%;
+}
+.Right {
+    width: 40%;
+    height: 50%;
+}
+
+#Top > .Left{
+    width: 50%;
+    height: 90%;
+    display: grid;
+}
+#Top > .Left > *, #Top > .Right > *{
+    margin: auto;
+}
+#Top > .Right {
+    width: 50%;
+    height: 90%;
     display: grid;
 }
 
-.Inputs_input > *{
-    margin: auto;
+h1 {
+    font-size: 2vw;
+    width: 90%;
+    line-height: 2;
+}
+h4 {
+    font-size: 1vw;
+    font-weight: 100;
+    width: 90%;
+    line-height: 1.25;
 }
 
-#allNames{
-    width: 50%;
-    height: 80%;
+span{
+    width: 70%;
+}
+input {
+    width: 75%;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding-left: 2.5%;
+}
+
+button{
+    width: 30%;
+    cursor: pointer;
+    background: none;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+textarea{
+    width: 90%;
+    height: 90%;
+    padding: 5px;
 }
 
 #MailFormatsBox, #CorrMailsBox {
-    height: 80%;
-    width: 80%;
-    margin: 10% auto;
+    height: 90%;
     overflow-y: auto;
     border: 1px solid black;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
-#MailFormatsContent, #CorrMailsBox {
-    font-size: 1vw;
-    line-height: 1.5;
-    padding: 5%;
+ul{
+    padding-left: 5%;
 }
 
 .MailOption:hover {
-    color: lightblue;
+    color: var(--main-col2);
+    cursor: pointer;
 }
 
-#active {
-    color: blue;
+@keyframes PopUp1{
+    0% {margin: -10% 50%}
+    25% {margin: 4% 50%}
+    75% {margin: 4% 50%}
+    100% {margin: -10% 50%}
+}
+
+@keyframes PopUp2{
+    0% {margin: -10% 50%}
+    25% {margin: 4% 50%}
+    75% {margin: 4% 50%}
+    100% {margin: -10% 50%}
+
+}
+
+#PopUpBox {
+    position: absolute;
+    border-radius: 12px;
+    margin: -10% 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    aspect-ratio: 4/1;
+    align-content: center;
+    text-align: center;
+    background-color: black;
+    color: var(--main-col1);
+    font-size: larger;
 }
