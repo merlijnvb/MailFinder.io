@@ -38,8 +38,6 @@
 </body>
 
 <script>
-    const TextBox = document.getElementById('MailFormatsBox');
-    const AnswBox = document.getElementById('CorrMailsContent');
     const TextBoxContent = document.getElementById('MailFormatsContent');
     const AnswBoxContent = document.getElementById('CorrMailsContent');
     const MailDomain = document.getElementById("InputDomain").value;
@@ -114,7 +112,7 @@
 
         for (let MailOption in AllMailFormats) {
             const li_MailOption = document.createElement('li');
-            li_MailOption.innerText = AllMailFormats[MailOption];
+            li_MailOption.innerText = AllMailFormats[MailOption] + MailDomain;
             li_MailOption.classList.add('MailOption');
             li_MailOption.addEventListener("click", createCorrMailListHTML);
             TextBoxContent.appendChild(li_MailOption);
