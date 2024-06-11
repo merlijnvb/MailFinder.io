@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Mail Finder</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section id="LightSide">
+        <div class="Inputs">
+            <div class="Info">
+                <h1>Converting your email list</h1>
+                <h4>Select the correctly formatted email by clicking on a format</h4>
+            </div>
+            <div class="Inputs_input">
+                <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
+                <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
+                <button id="btn_convert" onclick="getMailFormatOptions()">Convert Name</button>
+            </div>
+        </div>
+        <div id="MailFormatsBox">
+            <ul id="MailFormatsContent"></ul>
+        </div>
+    </section>
+    <section id="RightSide">
+        <div class="Inputs">
+            <div class="Info">
+                <h4>Paste all other contacts and seperate them with a ', '</h4>
+            </div>
+            <div class="Inputs_input">
+                <textarea id="allNames">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
+            </div>
+        </div>
+        <div id="CorrMailsBox">
+            <ul id="CorrMailsContent"></ul>
+        </div>
+    </section>
+</body>
+
+<script>
+    const TextBox = document.getElementById('MailFormatsBox');
+    const AnswBox = document.getElementById('CorrMailsContent');
+    const TextBoxContent = document.getElementById('MailFormatsContent');
+    const AnswBoxContent = document.getElementById('CorrMailsContent');
+    const MailDomain = document.getElementById("InputDomain").value;
+
+    function getAllMailFormats(FullName) {
+        let AllMailFormats = {};
+        let NameSliced = FullName.map((item, index) => { return index === 0 ? item : item.toLowerCase(); });
+
+        AllMailFormats['Type1'] = NameSliced.join('');
+        AllMailFormats['Type2'] = NameSliced.join('.');
+        AllMailFormats['Type3'] = NameSliced.join('-');
+        AllMailFormats['Type4'] = NameSliced.join('_');
+
+        AllMailFormats['Type5'] = NameSliced[0];
+        AllMailFormats['Type6'] = NameSliced[NameSliced.length - 1];
+
+        AllMailFormats['Type7'] = NameSliced.slice(1).join('');
+        AllMailFormats['Type8'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('');
+        AllMailFormats['Type9'] = NameSliced.map(i => i[0]).join('');
+        AllMailFormats['Type10'] = NameSliced.map((i, index) => index === NameSliced.length - 1 ? i : i[0]).join('');
+        AllMailFormats['Type11'] = NameSliced.map((i, index) => index === 0 ? i + '.' : i).join('');
+        AllMailFormats['Type12'] = NameSliced.slice(1).map((i, index, arr) => index === arr.length - 1 ? i : i[0]).join('');
+
+        AllMailFormats['Type13'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('.');
+
+        AllMailFormats['Type14'] = NameSliced.map((i, index) => index === 0 ? i[0] + '.' : i).join('');
+        AllMailFormats['Type15'] = NameSliced.map((i, index) => index === 0 ? i[0] + '-' : i).join('');
+        AllMailFormats['Type16'] = NameSliced.map((i, index) => index === 0 ? i[0] + '_' : i).join('');
+
+        AllMailFormats['Type17'] = NameSliced.map((i, index) => index === 0 ? i + '-' : i).join('');
+        AllMailFormats['Type18'] = NameSliced.map((i, index) => index === 0 ? i + '_' : i).join('');
+
+        return AllMailFormats;
+    }
+
+    function createCorrMailListHTML() {
+        const MailOptions = document.getElementsByClassName('MailOption');
+        const AllNames = document.getElementById("allNames").value.split(', ');
+        let AllFormattedNames = [];
+        let Type;
+
+        for (let option in MailOptions) {
+            MailOptions[option].id = '';
+            if (MailOptions[option].innerHTML == this.innerHTML) {
+                Type = option;
+            }
+        }
+        this.id = 'active';
+
+        for (let FullName in AllNames) {
+            AllFormattedNames.push(getAllMailFormats(AllNames[FullName].split(' '))[`Type${Type}`])
+        }
+
+        const values = Object.keys(AllFormattedNames).map(function (key) { return AllFormattedNames[key] + MailDomain; });
+        AnswBoxContent.innerHTML = '';
+
+        for (let value in values) {
+            const li_CorrMail = document.createElement('li');
+            li_CorrMail.innerText = values[value];
+            li_CorrMail.classList.add('CorrMail');
+            AnswBoxContent.appendChild(li_CorrMail);
+        }
+
+
+
+        navigator.clipboard.writeText(values);
+        alert('All correctly formatted contacts are copied to your clipboard');
+    }
+
+    function createMailFormatsListHTML(AllMailFormats) {
+        TextBoxContent.innerHTML = '';
+
+        for (let MailOption in AllMailFormats) {
+            const li_MailOption = document.createElement('li');
+            li_MailOption.innerText = AllMailFormats[MailOption];
+            li_MailOption.classList.add('MailOption');
+            li_MailOption.addEventListener("click", createCorrMailListHTML);
+            TextBoxContent.appendChild(li_MailOption);
+        }
+    }
+
+    function getMailFormatOptions() {
+        const SplittedFullName = document.getElementById("InputFullName").value.split(' ');
+        const MailFormatOptions = getAllMailFormats(SplittedFullName);
+        const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
+        createMailFormatsListHTML(AllMailFormats);
+
+        navigator.clipboard.writeText(AllMailFormats);
+        alert('All mail formations are copied to your clipboard');
+    }
+</script>
