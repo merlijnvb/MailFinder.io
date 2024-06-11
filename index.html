@@ -76,15 +76,17 @@
     function createCorrMailListHTML() {
         const MailOptions = document.getElementsByClassName('MailOption');
         const AllNames = document.getElementById("allNames").value.split(', ');
+        const MailKeys = Object.keys(MailOptions);
         let AllFormattedNames = [];
         let Type;
 
-        for (let option in MailOptions) {
-            MailOptions[option].id = '';
-            if (MailOptions[option].innerHTML == this.innerHTML) {
-                Type = option + 1;
+        for (let i = 0; i < MailOptions.length; i++) {
+            MailOptions[MailKeys[i]].id = '';
+            if (MailOptions[MailKeys[i]].textContent == this.innerHTML) {
+                Type = i + 1;
             }
         }
+        
         this.id = 'active';
 
         for (let FullName in AllNames) {
