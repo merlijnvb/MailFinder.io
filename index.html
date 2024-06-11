@@ -40,7 +40,7 @@
 <script>
     const TextBoxContent = document.getElementById('MailFormatsContent');
     const AnswBoxContent = document.getElementById('CorrMailsContent');
-    const MailDomain = document.getElementById("InputDomain").value;
+    let MailDomain = document.getElementById("InputDomain").value;
 
     function getAllMailFormats(FullName) {
         let AllMailFormats = {};
@@ -120,6 +120,7 @@
     }
 
     function getMailFormatOptions() {
+        MailDomain = document.getElementById("InputDomain").value;
         const SplittedFullName = document.getElementById("InputFullName").value.split(' ');
         const MailFormatOptions = getAllMailFormats(SplittedFullName);
         const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
