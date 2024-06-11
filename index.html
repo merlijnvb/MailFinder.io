@@ -41,6 +41,57 @@
     let MailDomain = document.getElementById("InputDomain").value;
     let counter = true;
 
+    function getAllIndexes(arr, val) {
+        var indexes = [], i = -1;
+        while ((i = arr.indexOf(val, i + 1)) != -1) {
+            indexes.push(i);
+        }
+        return indexes;
+    }
+
+    function readTextArea() {
+        const TextArea = document.getElementById('allNames');
+        const txt = TextArea.value;
+        const txtTypes = {};
+
+        txtTypes['Type1'] = txt.split(';');
+        txtTypes['Type2'] = txt.split(',');
+        txtTypes['Type3'] = txt.split('\n');
+        txtTypes['Type4'] = txt.split('_');
+        txtTypes['Type5'] = txt.split('; ');
+        txtTypes['Type6'] = txt.split(', ');
+        txtTypes['Type7'] = txt.split('\n ');
+        txtTypes['Type8'] = txt.split(' ; ');
+        txtTypes['Type9'] = txt.split(' , ');
+        txtTypes['Type10'] = txt.split(' \n ');
+        txtTypes['Type11'] = txt.split(' ;');
+        txtTypes['Type12'] = txt.split(' ,');
+        txtTypes['Type13'] = txt.split(' \n');
+
+
+        let lengths = [];
+        for (let i = 0; i < Object.keys(txtTypes).length; i++) {
+            lengths.push(txtTypes[`Type${i + 1}`].length);
+        }
+
+        let BestTypes = getAllIndexes(lengths, Math.max(...lengths));
+
+        let sizes = [];
+        for (let j = 0; j < BestTypes.length; j++) {
+            sizes.push(txtTypes[`Type${BestTypes[j] + 1}`][1].length);
+        }
+
+        const equal = (element) => element == Math.min(...sizes);
+        const indexEqual = sizes.findIndex(equal);
+
+
+        const BestestType = BestTypes[indexEqual] + 1;
+
+        return txtTypes[`Type${BestestType}`];
+    }
+
+
+
     function ArraytoTxt(array) {
         let txt = '';
 
@@ -52,7 +103,7 @@
             }
         }
 
-        return txt
+        return txt;
     }
 
     function PopUpWindow(DisplayText) {
@@ -102,7 +153,7 @@
 
     function createCorrMailListHTML() {
         const MailOptions = document.getElementsByClassName('MailOption');
-        const AllNames = document.getElementById("allNames").value.split(', ');
+        const AllNames = readTextArea();
         const MailKeys = Object.keys(MailOptions);
         let AllFormattedNames = [];
         let Type;

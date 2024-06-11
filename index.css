@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --main-col1: #FFFFFF;
     --main-col2: #424B54;
     --main-col3: #1F2224;
@@ -100,8 +100,11 @@ ul{
 }
 
 .MailOption:hover {
-    color: var(--main-col2);
+    color: lightgray;
     cursor: pointer;
+}
+#active{
+    color: red;
 }
 
 @keyframes PopUp1{
