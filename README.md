@@ -1,1 +1,1 @@
-# MailFinder.io
+# MailFinder
