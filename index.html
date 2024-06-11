@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <head>
     <meta charset="utf-8" />
@@ -15,15 +15,13 @@
             <h4>
                 Please enter the full name and email domain of one of your contacts into the designated input fields.
                 Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
-                copied to your clipboard. To organize your entire contact list, choose the appropriate email address and either
-                upload a CSV file or paste your contacts into the text area on the right.
+                copied to your clipboard. To organize your entire contact list, choose the appropriate email address and paste your contacts into the text area on the right.
             </h4>
             <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
             <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
             <button id="btn_convert" onclick="getMailFormatOptions()">Convert</button>
         </div>
         <div class="Right">
-            <input type="file"  id="CSVNames"/>
             <textarea id="allNames">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
