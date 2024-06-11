@@ -82,7 +82,7 @@
         for (let option in MailOptions) {
             MailOptions[option].id = '';
             if (MailOptions[option].innerHTML == this.innerHTML) {
-                Type = option;
+                Type = option - 1;
             }
         }
         this.id = 'active';
