@@ -1,7 +1,9 @@
 ﻿:root {
-    --main-col1: #FFFFFF;
-    --main-col2: #424B54;
-    --main-col3: #1F2224;
+    --col-background: #FFFFFF;
+    --col-popup: black;
+    --col-popup-txt: #FFFFFF;
+    --col-txt: black;
+    --col-border: black;
 }
 
 
@@ -11,12 +13,12 @@
     text-decoration: none;
     user-select: none;
     font-family: Arial;
-    color: var(--main-col3);
+    color: var(--col-txt);
 }
 html, body {
     width: 100%;
     height: 100%;
-    background-color: var(--main-col1);
+    background-color: var(--col-background);
     display: contents;
 }
 
@@ -57,6 +59,11 @@ h1 {
     width: 90%;
     line-height: 2;
 }
+
+h1:hover{
+    cursor: pointer;
+}
+
 h4 {
     font-size: 1vw;
     font-weight: 100;
@@ -69,16 +76,17 @@ span{
 }
 input {
     width: 75%;
-    border: 1px solid black;
+    border: 1px solid var(--col-border);
     border-radius: 4px;
     padding-left: 2.5%;
+    background: none;
 }
 
-button{
+button {
     width: 30%;
     cursor: pointer;
     background: none;
-    border: 1px solid black;
+    border: 1px solid var(--col-border);
     border-radius: 4px;
 }
 
@@ -86,12 +94,13 @@ textarea{
     width: 90%;
     height: 90%;
     padding: 5px;
+    background: none;
 }
 
 #MailFormatsBox, #CorrMailsBox {
     height: 90%;
     overflow-y: auto;
-    border: 1px solid black;
+    border: 1px solid var(--col-border);
     border-radius: 4px;
 }
 
@@ -130,7 +139,7 @@ ul{
     aspect-ratio: 4/1;
     align-content: center;
     text-align: center;
-    background-color: black;
-    color: var(--main-col1);
+    background-color: var(--col-popup);
+    color: var(--col-popup-txt);
     font-size: larger;
 }

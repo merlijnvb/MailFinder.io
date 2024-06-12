@@ -11,7 +11,7 @@
 
     <section id="Top">
         <div class="Left">
-            <h1>Converting your list of contacts into emails</h1>
+            <h1 onclick="changeLightModus()">Converting your list of contacts into emails</h1>
             <h4>
                 Please enter the full name and email domain of one of your contacts into the designated input fields.
                 Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
@@ -40,6 +40,27 @@
     const AnswBoxContent = document.getElementById('CorrMailsContent');
     let MailDomain = document.getElementById("InputDomain").value;
     let counter = true;
+    let modus = true;
+
+    function changeLightModus() {
+        if (modus) {
+            modus = false;
+            document.documentElement.style.setProperty("--col-background", 'black');
+            document.documentElement.style.setProperty("--col-popup", '#FFFFFF');
+            document.documentElement.style.setProperty("--col-popup-txt", 'black');
+            document.documentElement.style.setProperty("--col-txt", '#FFFFFF');
+            document.documentElement.style.setProperty("--col-border", '#FFFFFF');
+        } else {
+            modus = true;
+            document.documentElement.style.setProperty("--col-background", '#FFFFFF');
+            document.documentElement.style.setProperty("--col-popup", 'black');
+            document.documentElement.style.setProperty("--col-popup-txt", '#FFFFFF');
+            document.documentElement.style.setProperty("--col-txt", 'black');
+            document.documentElement.style.setProperty("--col-border", 'black');
+        }
+    }
+
+
 
     function getAllIndexes(arr, val) {
         var indexes = [], i = -1;
@@ -201,7 +222,16 @@
 
     function getMailFormatOptions() {
         MailDomain = document.getElementById("InputDomain").value;
-        const SplittedFullName = document.getElementById("InputFullName").value.split(' ');
+        let SplittedFullName = document.getElementById("InputFullName").value.split(' ');
+
+        if (SplittedFullName == '') {
+            SplittedFullName = ['firstname','prefixes','surname'];
+        }
+
+        if (MailDomain == '') {
+            MailDomain = "@mail.com";
+        }
+
         const MailFormatOptions = getAllMailFormats(SplittedFullName);
         const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
         createMailFormatsListHTML(AllMailFormats);
