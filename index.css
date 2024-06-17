@@ -112,6 +112,10 @@ ul{
     color: lightgray;
     cursor: pointer;
 }
+
+.CorrMail:hover{
+    cursor: pointer;
+}
 #active{
     color: red;
 }
