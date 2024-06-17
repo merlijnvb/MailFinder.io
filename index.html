@@ -41,6 +41,7 @@
     let MailDomain = document.getElementById("InputDomain").value;
     let counter = true;
     let modus = true;
+    let firstContact = '';
 
     function changeLightModus() {
         if (modus) {
@@ -141,6 +142,18 @@
         }
     }
 
+    function CopyCorr() {
+        const CorrMails = document.getElementsByClassName('CorrMail');
+        let txt = `${firstContact}\n`;
+
+        for (let i = 0; i < CorrMails.length; i++) {
+            txt += CorrMails[i].innerText + '\n';
+        }
+
+        navigator.clipboard.writeText(txt);
+        PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
+    }
+
     function getAllMailFormats(FullName) {
         let AllMailFormats = {};
         let NameSliced = FullName.map((item, index) => { return index === 0 ? item : item.toLowerCase(); });
@@ -179,9 +192,11 @@
         let AllFormattedNames = [];
         let Type;
 
+        firstContact = this.innerHTML;
+
         for (let i = 0; i < MailOptions.length; i++) {
             MailOptions[MailKeys[i]].id = '';
-            if (MailOptions[MailKeys[i]].textContent == this.innerHTML) {
+            if (MailOptions[MailKeys[i]].textContent == firstContact) {
                 Type = i + 1;
             }
         }
@@ -198,13 +213,14 @@
         for (let CorrMail in AllCorrMails) {
             const li_CorrMail = document.createElement('li');
             li_CorrMail.innerText = AllCorrMails[CorrMail];
+            li_CorrMail.addEventListener("click", CopyCorr);
             li_CorrMail.classList.add('CorrMail');
             AnswBoxContent.appendChild(li_CorrMail);
         }
 
 
 
-        navigator.clipboard.writeText(ArraytoTxt([getAllMailFormats(document.getElementById("InputFullName").value.split(' '))[`Type${Type}`] + MailDomain].concat(AllCorrMails)));
+        navigator.clipboard.writeText(ArraytoTxt([firstContact].concat(AllCorrMails)));
         PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
     }
 
