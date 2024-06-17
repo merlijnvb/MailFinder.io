@@ -204,7 +204,7 @@
 
 
 
-        navigator.clipboard.writeText(ArraytoTxt(AllCorrMails));
+        navigator.clipboard.writeText(ArraytoTxt([getAllMailFormats(document.getElementById("InputFullName").value.split(' '))[`Type${Type}`] + MailDomain].concat(AllCorrMails)));
         PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
     }
 
