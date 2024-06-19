@@ -8,4 +8,4 @@ Click the correct format of the valid email and your full contact list is format
 This list comprised of all valid emails is also automatically copied to your clipboard. 
 
 ### In the future:
-I want to make the email validation process also in code, so the user *only* has to crl-v his list of all contacts
+I want to make the email validation process also automatic in Js, so the user *only* has to crl-v his list of all contacts
