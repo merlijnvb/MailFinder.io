@@ -22,7 +22,7 @@
             <button id="btn_convert" onclick="getMailFormatOptions()">Convert</button>
         </div>
         <div class="Right">
-            <textarea id="allNames">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
+            <textarea id="allNames" ondblclick="refreshTextArea()">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
     <section id="Bot">
@@ -73,8 +73,6 @@
         }
     }
 
-
-
     function getAllIndexes(arr, val) {
         var indexes = [], i = -1;
         while ((i = arr.indexOf(val, i + 1)) != -1) {
@@ -83,9 +81,13 @@
         return indexes;
     }
 
+    function refreshTextArea() {
+        document.getElementById('allNames').innerText = '';
+    }
+
     function readTextArea() {
         const TextArea = document.getElementById('allNames');
-        const txt = TextArea.value;
+        const txt = TextArea.value.replaceAll('\t', ' ');
         const txtTypes = {};
 
         txtTypes['Type1'] = txt.split(';');
@@ -102,14 +104,13 @@
         txtTypes['Type12'] = txt.split(' ,');
         txtTypes['Type13'] = txt.split(' \n');
 
-
         let lengths = [];
         for (let i = 0; i < Object.keys(txtTypes).length; i++) {
+            txtTypes[`Type${i + 1}`] = txtTypes[`Type${i + 1}`].filter(n => n);
             lengths.push(txtTypes[`Type${i + 1}`].length);
         }
 
         let BestTypes = getAllIndexes(lengths, Math.max(...lengths));
-
         let sizes = [];
         for (let j = 0; j < BestTypes.length; j++) {
             sizes.push(txtTypes[`Type${BestTypes[j] + 1}`][1].length);
@@ -117,14 +118,10 @@
 
         const equal = (element) => element == Math.min(...sizes);
         const indexEqual = sizes.findIndex(equal);
-
-
         const BestestType = BestTypes[indexEqual] + 1;
 
         return txtTypes[`Type${BestestType}`];
     }
-
-
 
     function ArraytoTxt(array) {
         let txt = '';
@@ -260,8 +257,6 @@
             li_CorrMail.classList.add('CorrMail');
             AnswBoxContent.appendChild(li_CorrMail);
         }
-
-
 
         navigator.clipboard.writeText(ArraytoTxt([firstContact].concat(AllCorrMails)));
         PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
