@@ -11,7 +11,7 @@
 
     <section id="Top">
         <div class="Left">
-            <h1 onclick="changeLightModus()">Converting your list of contacts into emails</h1>
+            <h1 id="LightModus" onclick="changeLightModus('dark')">Converting your list of contacts into emails</h1>
             <h4>
                 Please enter the full name and email domain of one of your contacts into the designated input fields.
                 Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
@@ -40,24 +40,36 @@
     const AnswBoxContent = document.getElementById('CorrMailsContent');
     let MailDomain = document.getElementById("InputDomain").value;
     let counter = true;
-    let modus = true;
     let firstContact = '';
 
-    function changeLightModus() {
-        if (modus) {
-            modus = false;
-            document.documentElement.style.setProperty("--col-background", 'black');
-            document.documentElement.style.setProperty("--col-popup", '#FFFFFF');
-            document.documentElement.style.setProperty("--col-popup-txt", 'black');
-            document.documentElement.style.setProperty("--col-txt", '#FFFFFF');
-            document.documentElement.style.setProperty("--col-border", '#FFFFFF');
-        } else {
-            modus = true;
-            document.documentElement.style.setProperty("--col-background", '#FFFFFF');
-            document.documentElement.style.setProperty("--col-popup", 'black');
-            document.documentElement.style.setProperty("--col-popup-txt", '#FFFFFF');
-            document.documentElement.style.setProperty("--col-txt", 'black');
-            document.documentElement.style.setProperty("--col-border", 'black');
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        changeLightModus('dark');
+    }
+
+
+    function changeLightModus(modus) {
+        switch (modus) {
+            case 'dark':
+                document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('light')");
+                document.documentElement.style.setProperty("--col-background", 'black');
+                document.documentElement.style.setProperty("--col-popup", '#FFFFFF');
+                document.documentElement.style.setProperty("--col-popup-txt", 'black');
+                document.documentElement.style.setProperty("--col-txt", '#FFFFFF');
+                document.documentElement.style.setProperty("--col-border", '#FFFFFF');
+
+                break;
+            case 'light':
+                document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('dark')");
+                document.documentElement.style.setProperty("--col-background", '#FFFFFF');
+                document.documentElement.style.setProperty("--col-popup", 'black');
+                document.documentElement.style.setProperty("--col-popup-txt", '#FFFFFF');
+                document.documentElement.style.setProperty("--col-txt", 'black');
+                document.documentElement.style.setProperty("--col-border", 'black');
+
+                break;
+            default:
+                changeLightModus('light');
         }
     }
 
@@ -154,33 +166,64 @@
         PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
     }
 
-    function getAllMailFormats(FullName) {
+    function ImprovedGetAllMailFormats(FullName, Type = -1) {
         let AllMailFormats = {};
         let NameSliced = FullName.map((item, index) => { return index === 0 ? item : item.toLowerCase(); });
 
-        AllMailFormats['Type1'] = NameSliced.join('');
-        AllMailFormats['Type2'] = NameSliced.join('.');
-        AllMailFormats['Type3'] = NameSliced.join('-');
-        AllMailFormats['Type4'] = NameSliced.join('_');
-
-        AllMailFormats['Type5'] = NameSliced[0];
-        AllMailFormats['Type6'] = NameSliced[NameSliced.length - 1];
-
-        AllMailFormats['Type7'] = NameSliced.slice(1).join('');
-        AllMailFormats['Type8'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('');
-        AllMailFormats['Type9'] = NameSliced.map(i => i[0]).join('');
-        AllMailFormats['Type10'] = NameSliced.map((i, index) => index === NameSliced.length - 1 ? i : i[0]).join('');
-        AllMailFormats['Type11'] = NameSliced.map((i, index) => index === 0 ? i + '.' : i).join('');
-        AllMailFormats['Type12'] = NameSliced.slice(1).map((i, index, arr) => index === arr.length - 1 ? i : i[0]).join('');
-
-        AllMailFormats['Type13'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('.');
-
-        AllMailFormats['Type14'] = NameSliced.map((i, index) => index === 0 ? i[0] + '.' : i).join('');
-        AllMailFormats['Type15'] = NameSliced.map((i, index) => index === 0 ? i[0] + '-' : i).join('');
-        AllMailFormats['Type16'] = NameSliced.map((i, index) => index === 0 ? i[0] + '_' : i).join('');
-
-        AllMailFormats['Type17'] = NameSliced.map((i, index) => index === 0 ? i + '-' : i).join('');
-        AllMailFormats['Type18'] = NameSliced.map((i, index) => index === 0 ? i + '_' : i).join('');
+        if (Type == 1 || Type == -1) {
+            AllMailFormats['Type1'] = NameSliced.join('');
+        }
+        if (Type == 2 || Type == -1) {
+            AllMailFormats['Type2'] = NameSliced.join('.');
+        }
+        if (Type == 3 || Type == -1) {
+            AllMailFormats['Type3'] = NameSliced.join('-');
+        }
+        if (Type == 4 || Type == -1) {
+            AllMailFormats['Type4'] = NameSliced.join('_');
+        }
+        if (Type == 5 || Type == -1) {
+            AllMailFormats['Type5'] = NameSliced[0];
+        }
+        if (Type == 6 || Type == -1) {
+            AllMailFormats['Type6'] = NameSliced[NameSliced.length - 1];
+        }
+        if (Type == 7 || Type == -1) {
+            AllMailFormats['Type7'] = NameSliced.slice(1).join('');
+        }
+        if (Type == 8 || Type == -1) {
+            AllMailFormats['Type8'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('');
+        }
+        if (Type == 9 || Type == -1) {
+            AllMailFormats['Type9'] = NameSliced.map(i => i[0]).join('');
+        }
+        if (Type == 10 || Type == -1) {
+            AllMailFormats['Type10'] = NameSliced.map((i, index) => index === NameSliced.length - 1 ? i : i[0]).join('');
+        }
+        if (Type == 11 || Type == -1) {
+            AllMailFormats['Type11'] = NameSliced.map((i, index) => index === 0 ? i + '.' : i).join('');
+        }
+        if (Type == 12 || Type == -1) {
+            AllMailFormats['Type12'] = NameSliced.slice(1).map((i, index, arr) => index === arr.length - 1 ? i : i[0]).join('');
+        }
+        if (Type == 13 || Type == -1) {
+            AllMailFormats['Type13'] = NameSliced.map((i, index) => index === 0 ? i[0] : i).join('.');
+        }
+        if (Type == 14 || Type == -1) {
+            AllMailFormats['Type14'] = NameSliced.map((i, index) => index === 0 ? i[0] + '.' : i).join('');
+        }
+        if (Type == 15 || Type == -1) {
+            AllMailFormats['Type15'] = NameSliced.map((i, index) => index === 0 ? i[0] + '-' : i).join('');
+        }
+        if (Type == 16 || Type == -1) {
+            AllMailFormats['Type16'] = NameSliced.map((i, index) => index === 0 ? i[0] + '_' : i).join('');
+        }
+        if (Type == 17 || Type == -1) {
+            AllMailFormats['Type17'] = NameSliced.map((i, index) => index === 0 ? i + '-' : i).join('');
+        }
+        if (Type == 18 || Type == -1) {
+            AllMailFormats['Type18'] = NameSliced.map((i, index) => index === 0 ? i + '_' : i).join('');
+        }
 
         return AllMailFormats;
     }
@@ -204,7 +247,7 @@
         this.id = 'active';
 
         for (let FullName in AllNames) {
-            AllFormattedNames.push(getAllMailFormats(AllNames[FullName].split(' '))[`Type${Type}`])
+            AllFormattedNames.push(ImprovedGetAllMailFormats(AllNames[FullName].split(' '), Type)[`Type${Type}`])
         }
 
         const AllCorrMails = Object.keys(AllFormattedNames).map(function (key) { return AllFormattedNames[key] + MailDomain; });
@@ -248,7 +291,7 @@
             MailDomain = "@mail.com";
         }
 
-        const MailFormatOptions = getAllMailFormats(SplittedFullName);
+        const MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
         const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
         createMailFormatsListHTML(AllMailFormats);
         navigator.clipboard.writeText(ArraytoTxt(AllMailFormats));

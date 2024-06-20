@@ -90,11 +90,13 @@ button {
     border-radius: 4px;
 }
 
-textarea{
+textarea {
     width: 90%;
     height: 90%;
     padding: 5px;
     background: none;
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
 }
 
 #MailFormatsBox, #CorrMailsBox {
@@ -116,7 +118,7 @@ ul{
 .CorrMail:hover{
     cursor: pointer;
 }
-#active{
+#active {
     color: red;
 }
 
