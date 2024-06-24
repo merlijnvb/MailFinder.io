@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <!-- THIS IS THE POPUP BOX THAT WILL POP UP WITH A CERTAIN TEXT CONTENT CALLED VIA JAVASCRIPT -->
     <div id="PopUpBox"></div>
-
 
     <section id="Top">
         <div class="Left">
@@ -17,15 +17,21 @@
                 Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
                 copied to your clipboard. To organize your entire contact list, choose the appropriate email address and paste your contacts into the text area on the right.
             </h4>
+
+            <!-- INPUT SECTION: -->
             <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
             <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
             <button id="btn_convert" onclick="getMailFormatOptions()">Convert</button>
         </div>
         <div class="Right">
+
+            <!-- LARGE INPUT SECTION -->
             <textarea id="allNames" ondblclick="refreshTextArea()">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
     <section id="Bot">
+
+        <!-- MAIL DISPLAYS THAT WILL UPDATE WHEN INPUTS ARE GIVEN -->
         <div class="Left" id="MailFormatsBox">
             <ul id="MailFormatsContent"></ul>
         </div>
@@ -43,15 +49,18 @@
     let firstContact = '';
 
 
+    //CHECK IF BROWSER COLOR SCHEME IS SET TO DARK: IF SO SET WEBPAGE COLOR SCHEME ALSO TO BLACK
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         changeLightModus('dark');
     }
 
-
+    //LIGHT MODUS CHANGE FUNCTION: WITH 'MODUS' = 'dark' OR 'light' AS INPUT;
     function changeLightModus(modus) {
         switch (modus) {
             case 'dark':
+                //CHANGE INPUT STATUS TO LIGHT MODUS ON BUTTON
                 document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('light')");
+                //CHANGE CSS GLOBAL VARIABLES TO DARK THEME
                 document.documentElement.style.setProperty("--col-background", 'black');
                 document.documentElement.style.setProperty("--col-popup", '#FFFFFF');
                 document.documentElement.style.setProperty("--col-popup-txt", 'black');
@@ -60,7 +69,9 @@
 
                 break;
             case 'light':
+                //CHANGE INPUT STATUS TO LIGHT MODUS ON BUTTON
                 document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('dark')");
+                //CHANGE CSS GLOBAL VARIABLES TO DARK THEME
                 document.documentElement.style.setProperty("--col-background", '#FFFFFF');
                 document.documentElement.style.setProperty("--col-popup", 'black');
                 document.documentElement.style.setProperty("--col-popup-txt", '#FFFFFF');
@@ -69,74 +80,47 @@
 
                 break;
             default:
+                //IF AN ERROR OCCURS IT SHOULD DEFAULT ITSELF TO LIGHT MODUS
                 changeLightModus('light');
         }
     }
 
+    //ARRAY + VAL --> INDEXES FUNCTION. A FUNCTION THAT RETURNS A LIST OF ALL INDEXES OF VALUE OCCURENCES WITHIN AN ARRAY
     function getAllIndexes(arr, val) {
-        var indexes = [], i = -1;
+        let indexes = [], i = -1;
         while ((i = arr.indexOf(val, i + 1)) != -1) {
             indexes.push(i);
         }
         return indexes;
     }
 
+    //CLEAR TEXTAREA OF INNERTEXT WHEN DIV IS DOUBLE CLICKED
     function refreshTextArea() {
         document.getElementById('allNames').innerText = '';
     }
 
+    //FUNCTION THAT READS THE TEXT AREA
     function readTextArea() {
         const TextArea = document.getElementById('allNames');
-        const txt = TextArea.value.replaceAll('\t', ' ');
+        const txt = TextArea.value;
         const txtTypes = {};
 
-        txtTypes['Type1'] = txt.split(';');
-        txtTypes['Type2'] = txt.split(',');
-        txtTypes['Type3'] = txt.split('\n');
-        txtTypes['Type4'] = txt.split('_');
-        txtTypes['Type5'] = txt.split('; ');
-        txtTypes['Type6'] = txt.split(', ');
-        txtTypes['Type7'] = txt.split('\n ');
-        txtTypes['Type8'] = txt.split(' ; ');
-        txtTypes['Type9'] = txt.split(' , ');
-        txtTypes['Type10'] = txt.split(' \n ');
-        txtTypes['Type11'] = txt.split(' ;');
-        txtTypes['Type12'] = txt.split(' ,');
-        txtTypes['Type13'] = txt.split(' \n');
+        //A: split TextArea value for each delimiter
+        const delimiters = [';', ',', '\n', '_'];
+        delimiters.forEach((delimiter, index) => {
+            txtTypes[`Type${index + 1}`] = txt.split(delimiter);
+        });
 
-        let lengths = [];
-        for (let i = 0; i < Object.keys(txtTypes).length; i++) {
-            txtTypes[`Type${i + 1}`] = txtTypes[`Type${i + 1}`].filter(n => n);
-            lengths.push(txtTypes[`Type${i + 1}`].length);
-        }
+        //B: get index of most succesfull delimiter split
+        const maxLength = Math.max(...Object.values(txtTypes).map(arr => arr.length));
+        const indexMax = Object.values(txtTypes).findIndex(arr => arr.length === maxLength) + 1;
 
-        let BestTypes = getAllIndexes(lengths, Math.max(...lengths));
-        let sizes = [];
-        for (let j = 0; j < BestTypes.length; j++) {
-            sizes.push(txtTypes[`Type${BestTypes[j] + 1}`][1].length);
-        }
-
-        const equal = (element) => element == Math.min(...sizes);
-        const indexEqual = sizes.findIndex(equal);
-        const BestestType = BestTypes[indexEqual] + 1;
-
-        return txtTypes[`Type${BestestType}`];
+        //C: reformat the correctly split TextArea and remove any empty spaces (OTHER REFORMATIONS STILL NEED TO BE ADDED LIKE \n + " " COMBINATIONS)
+        let AllNames = txtTypes[`Type${indexMax}`].map(name => name.trim().split(/\s+/g).join(' '));
+        return AllNames;
     }
 
-    function ArraytoTxt(array) {
-        let txt = '';
-
-        for (let i = 0; i < array.length; i++) {
-            if (i == array.length - 1) {
-                txt += array[i];
-            } else {
-                txt += array[i] + '\n';
-            }
-        }
-
-        return txt;
-    }
-
+    //POP UP WINDOW FUNCTION
     function PopUpWindow(DisplayText) {
         PopUpBox = document.getElementById('PopUpBox');
         PopUpBox.innerText = DisplayText;
@@ -151,18 +135,23 @@
         }
     }
 
+    //COPY ALL CORRECTLY FORMATED EMAILS TO CLIPBOARD
     function CopyCorr() {
-        const CorrMails = document.getElementsByClassName('CorrMail');
-        let txt = `${firstContact}\n`;
+        const CorrMails = Array.from(document.getElementsByClassName('CorrMail'));
+        let txt;
 
-        for (let i = 0; i < CorrMails.length; i++) {
-            txt += CorrMails[i].innerText + '\n';
+        //CHECK IF FIRST CONTACT INPUT IS FILLED IN: IF SO ALSO COPY THIS CONTACT TO CLIPBOARD
+        if (InputFullName.value != '') {
+            txt = [firstContact, ...CorrMails.map(mail => mail.innerText)].join('\n');
+        } else {
+            txt = [...CorrMails.map(mail => mail.innerText)].join('\n');
         }
 
         navigator.clipboard.writeText(txt);
         PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
     }
 
+    //FUNCTION TO GET ALL HIGHLY LIKELY EMAIL FORMATS RETURNED INTO A LIB OF EMAIL FORMAT TYPES
     function ImprovedGetAllMailFormats(FullName, Type = -1) {
         let AllMailFormats = {};
         let NameSliced = FullName.map((item, index) => { return index === 0 ? item : item.toLowerCase(); });
@@ -225,71 +214,70 @@
         return AllMailFormats;
     }
 
+    //FUNCTION TO CREATE THE CORRECT EMAIL LIST IN HTML
     function createCorrMailListHTML() {
-        const MailOptions = document.getElementsByClassName('MailOption');
+        const MailOptions = Array.from(document.getElementsByClassName('MailOption'));
         const AllNames = readTextArea();
-        const MailKeys = Object.keys(MailOptions);
-        let AllFormattedNames = [];
-        let Type;
 
-        firstContact = this.innerHTML;
-
-        for (let i = 0; i < MailOptions.length; i++) {
-            MailOptions[MailKeys[i]].id = '';
-            if (MailOptions[MailKeys[i]].textContent == firstContact) {
-                Type = i + 1;
+        // Clear all ids and set the active one
+        MailOptions.forEach((option, index) => {
+            option.id = '';
+            if (option.textContent === this.innerHTML) {
+                Type = index + 1;
+                this.id = 'active';
             }
-        }
-        
-        this.id = 'active';
+        });
 
-        for (let FullName in AllNames) {
-            AllFormattedNames.push(ImprovedGetAllMailFormats(AllNames[FullName].split(' '), Type)[`Type${Type}`])
-        }
-
-        const AllCorrMails = Object.keys(AllFormattedNames).map(function (key) { return AllFormattedNames[key] + MailDomain; });
+        // Format names and create list items
+        const AllFormattedNames = AllNames.map(name => ImprovedGetAllMailFormats(name.split(' '), Type)[`Type${Type}`]);
+        const AllCorrMails = AllFormattedNames.map(formattedName => formattedName + MailDomain);
         AnswBoxContent.innerHTML = '';
 
-        for (let CorrMail in AllCorrMails) {
+        AllCorrMails.forEach(CorrMail => {
             const li_CorrMail = document.createElement('li');
-            li_CorrMail.innerText = AllCorrMails[CorrMail];
+            li_CorrMail.innerText = CorrMail;
             li_CorrMail.addEventListener("click", CopyCorr);
             li_CorrMail.classList.add('CorrMail');
             AnswBoxContent.appendChild(li_CorrMail);
-        }
+        });
 
-        navigator.clipboard.writeText(ArraytoTxt([firstContact].concat(AllCorrMails)));
-        PopUpWindow('All correctly ***formatted contacts*** are copied to your clipboard');
+        CopyCorr();
     }
 
+    //FUNCTION TO CREATE THE EMAIL FORMAT OPTIONS LIST IN HTML
     function createMailFormatsListHTML(AllMailFormats) {
         TextBoxContent.innerHTML = '';
 
-        for (let MailOption in AllMailFormats) {
+        AllMailFormats.forEach(MailOption => {
             const li_MailOption = document.createElement('li');
-            li_MailOption.innerText = AllMailFormats[MailOption];
+            li_MailOption.innerText = MailOption;
             li_MailOption.classList.add('MailOption');
             li_MailOption.addEventListener("click", createCorrMailListHTML);
             TextBoxContent.appendChild(li_MailOption);
-        }
+        });
     }
 
+    //FUNCTION TO GET ALL MAIL FORMAT OPTIONS: CALLED WHEN CONVERT BUTTON IS PRESSED
     function getMailFormatOptions() {
         MailDomain = document.getElementById("InputDomain").value;
         let SplittedFullName = document.getElementById("InputFullName").value.split(' ');
 
         if (SplittedFullName == '') {
-            SplittedFullName = ['firstname','prefixes','surname'];
+            SplittedFullName = ['firstname', 'prefixes', 'surname'];
         }
 
         if (MailDomain == '') {
             MailDomain = "@mail.com";
         }
 
-        const MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
-        const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
-        createMailFormatsListHTML(AllMailFormats);
-        navigator.clipboard.writeText(ArraytoTxt(AllMailFormats));
-        PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
+        if (SplittedFullName.length < 3) {
+            PopUpWindow("Put in a Fullname with prefixes");
+        } else {
+            const MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
+            const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
+            createMailFormatsListHTML(AllMailFormats);
+            navigator.clipboard.writeText(AllMailFormats.join('\n'));
+            PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
+        }
     }
 </script>
