@@ -21,7 +21,7 @@
             <!-- INPUT SECTION: -->
             <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
             <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
-            <button id="btn_convert" onclick="getMailFormatOptions()">Convert</button>
+            <button id="btn_convert" onclick="getMailFormatOptions()" ondblclick="getMailFormatOptions(true)">Convert</button>
         </div>
         <div class="Right">
 
@@ -46,7 +46,9 @@
     const AnswBoxContent = document.getElementById('CorrMailsContent');
     let MailDomain = document.getElementById("InputDomain").value;
     let counter = true;
+    let ConvertCntrEXTRA = 0;
     let firstContact = '';
+    const Seperators = ['.', '-', '_'];
 
 
     //CHECK IF BROWSER COLOR SCHEME IS SET TO DARK: IF SO SET WEBPAGE COLOR SCHEME ALSO TO BLACK
@@ -205,10 +207,164 @@
         return AllMailFormats;
     }
 
+
+    //FUNCTION TO GET ALL EMAIL FORMATS RETURNED INTO A LIB OF EMAIL FORMAT TYPES
+    function ImprovedImprovedGetAllMailFormats(FullName, Type = -1, MainSeperator) {
+        let AllMailFormats = {};
+        let NameSliced = FullName.map((item, index) => { return index === 0 ? item : item.toLowerCase(); });
+        //                                                                                                          NAME COMBINATIONS:
+        //                                                                                                          ----------------------------------
+        const FirstName = () => NameSliced[0];                                                                          //Hans                  1
+        const LastName = () => NameSliced[NameSliced.length - 1];                                                       //Buurt                 2
+        const Prefixes = (seperator) => NameSliced.slice(1, NameSliced.length - 1).join(seperator);                     //van de                3
+        const P_f = (seperator) => NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join(seperator);           //vd                    4
+
+        const First_pre_fixes_Last = (seperator) => [FirstName(), Prefixes(seperator), LastName()].join(seperator);     //Hans.van.de.Buurt     5
+        const First_prefixes_Last = (seperator) => [FirstName(), Prefixes(''), LastName()].join(seperator);             //Hans.vande.Buurt      6
+        const First_prefixesLast = (seperator) => [FirstName(), [Prefixes(''), LastName()].join('')].join(seperator);   //Hans.vandeBuurt       7
+        const F_pre_fixes_Last = (seperator) => [FirstName()[0], Prefixes(seperator), LastName()].join(seperator);      //H.van.de.Buurt        8
+        const First_p_f_Last = (seperator) => [FirstName(), P_f(seperator), LastName()].join(seperator);                //Hans.v.d.Buurt        9
+        const First_pf_Last_joinWith = (seperator) => [FirstName(), P_f(''), LastName()].join(seperator);               //Hans.vd.Buurt         10
+        const F_prefixes_Last_joinWith = (seperator) => [FirstName()[0], Prefixes(''), LastName()].join(seperator);     //H.vande.Buurt         11
+        const First_pre_fixes_L = (seperator) => [FirstName(), Prefixes(seperator), LastName()[0]].join(seperator);     //Hans.van.de.B         12
+        const First_prefixes_L_joinWith = (seperator) => [FirstName(), Prefixes(''), LastName()[0]].join(seperator);    //Hans.vande.B          13
+        const F_prefixesLast = (seperator) => [FirstName()[0], [Prefixes(''), LastName()].join('')].join(seperator);    //H.vandeBuurt          14
+        const First_pfLast = (seperator) => [FirstName(), [P_f(''), LastName()].join('')].join(seperator);              //Hans.vdBuurt          15
+        const F_p_f_Last = (seperator) => [FirstName()[0], P_f(seperator), LastName()].join(seperator);                 //H.v.d.Buurt           16
+        const F_pf_Last_joinWith = (seperator) => [FirstName()[0], P_f(''), LastName()].join(seperator);                //H.vd.Buurt            17
+        const First_p_f_L = (seperator) => [FirstName(), P_f(seperator), LastName()[0]].join(seperator);                //Hans.v.d.B            18
+        const First_pf_L_joinWith = (seperator) => [FirstName(), P_f(''), LastName()[0]].join(seperator);               //Hans.vd.B             19
+        const F_pre_fixes_L = (seperator) => [FirstName()[0], Prefixes(seperator), LastName()[0]].join(seperator);      //H.van.de.B            20
+        const F_prefixes_L = (seperator) => [FirstName()[0], Prefixes(''), LastName()[0]].join(seperator);              //H.vande.B             21
+        const F_pfLast = (seperator) => [FirstName()[0], [P_f(''), LastName()].join('')].join(seperator);               //H.vdBuurt             22
+        const First_pfL = (seperator) => [FirstName(), [P_f(''), LastName()[0]].join('')].join(seperator);              //Hans.vdB              23
+        const F_p_f_L = (seperator) => [FirstName()[0], P_f(seperator), LastName()[0]].join(seperator);                 //H.v.d.B               24
+        const F_pf_L = (seperator) => [FirstName()[0], P_f(''), LastName()[0]].join(seperator);                         //H.vd.B                25
+        const F_pfL = (seperator) => [FirstName()[0], [P_f(''), LastName()[0]].join('')].join(seperator);               //H.vdB                 26
+
+
+        switch (Type) {
+            case -1:
+                AllMailFormats['Type1'] = FirstName();
+                AllMailFormats['Type2'] = LastName();
+                AllMailFormats['Type3'] = Prefixes(MainSeperator);
+                AllMailFormats['Type4'] = P_f(MainSeperator);
+                AllMailFormats['Type5'] = First_pre_fixes_Last(MainSeperator);
+                AllMailFormats['Type6'] = First_prefixes_Last(MainSeperator);
+                AllMailFormats['Type7'] = First_prefixesLast(MainSeperator);
+                AllMailFormats['Type8'] = F_pre_fixes_Last(MainSeperator);
+                AllMailFormats['Type9'] = First_p_f_Last(MainSeperator);
+                AllMailFormats['Type10'] = First_pf_Last_joinWith(MainSeperator);
+                AllMailFormats['Type11'] = F_prefixes_Last_joinWith(MainSeperator);
+                AllMailFormats['Type12'] = First_pre_fixes_L(MainSeperator);
+                AllMailFormats['Type13'] = First_prefixes_L_joinWith(MainSeperator);
+                AllMailFormats['Type14'] = F_prefixesLast(MainSeperator);
+                AllMailFormats['Type15'] = First_pfLast(MainSeperator);
+                AllMailFormats['Type16'] = F_p_f_Last(MainSeperator);
+                AllMailFormats['Type17'] = F_pf_Last_joinWith(MainSeperator);
+                AllMailFormats['Type18'] = First_p_f_L(MainSeperator);
+                AllMailFormats['Type19'] = First_pf_L_joinWith(MainSeperator);
+                AllMailFormats['Type20'] = F_pre_fixes_L(MainSeperator);
+                AllMailFormats['Type21'] = F_prefixes_L(MainSeperator);
+                AllMailFormats['Type22'] = F_pfLast(MainSeperator);
+                AllMailFormats['Type23'] = First_pfL(MainSeperator);
+                AllMailFormats['Type24'] = F_p_f_L(MainSeperator);
+                AllMailFormats['Type25'] = F_pf_L(MainSeperator);
+                AllMailFormats['Type26'] = F_pfL(MainSeperator);
+                break;
+            case 1:
+                AllMailFormats['Type1'] = FirstName();
+                break;
+            case 2:
+                AllMailFormats['Type2'] = LastName();
+                break;
+            case 3:
+                AllMailFormats['Type3'] = Prefixes(MainSeperator);
+                break;
+            case 4:
+                AllMailFormats['Type4'] = P_f(MainSeperator);
+                break;
+            case 5:
+                AllMailFormats['Type5'] = First_pre_fixes_Last(MainSeperator);
+                break;
+            case 6:
+                AllMailFormats['Type6'] = First_prefixes_Last(MainSeperator);
+                break;
+            case 7:
+                AllMailFormats['Type7'] = First_prefixesLast(MainSeperator);
+                break;
+            case 8:
+                AllMailFormats['Type8'] = F_pre_fixes_Last(MainSeperator);
+                break;
+            case 9:
+                AllMailFormats['Type9'] = First_p_f_Last(MainSeperator);
+                break;
+            case 10:
+                AllMailFormats['Type10'] = First_pf_Last_joinWith(MainSeperator);
+                break;
+            case 11:
+                AllMailFormats['Type11'] = F_prefixes_Last_joinWith(MainSeperator);
+                break;
+            case 12:
+                AllMailFormats['Type12'] = First_pre_fixes_L(MainSeperator);
+                break;
+            case 13:
+                AllMailFormats['Type13'] = First_prefixes_L_joinWith(MainSeperator);
+                break;
+            case 14:
+                AllMailFormats['Type14'] = F_prefixesLast(MainSeperator);
+                break;
+            case 15:
+                AllMailFormats['Type15'] = First_pfLast(MainSeperator);
+                break;
+            case 16:
+                AllMailFormats['Type16'] = F_p_f_Last(MainSeperator);
+                break;
+            case 17:
+                AllMailFormats['Type17'] = F_pf_Last_joinWith(MainSeperator);
+                break;
+            case 18:
+                AllMailFormats['Type18'] = First_p_f_L(MainSeperator);
+                break;
+            case 19:
+                AllMailFormats['Type19'] = First_pf_L_joinWith(MainSeperator);
+                break;
+            case 20:
+                AllMailFormats['Type20'] = F_pre_fixes_L(MainSeperator);
+                break;
+            case 21:
+                AllMailFormats['Type21'] = F_prefixes_L(MainSeperator);
+                break;
+            case 22:
+                AllMailFormats['Type22'] = F_pfLast(MainSeperator);
+                break;
+            case 23:
+                AllMailFormats['Type23'] = First_pfL(MainSeperator);
+                break;
+            case 24:
+                AllMailFormats['Type24'] = F_p_f_L(MainSeperator);
+                break;
+            case 25:
+                AllMailFormats['Type25'] = F_pf_L(MainSeperator);
+                break;
+            case 26:
+                AllMailFormats['Type26'] = F_pfL(MainSeperator);
+                break;
+            default:
+                // Handle other cases or errors
+                break;
+        }
+
+        return AllMailFormats;
+    }
+
+
     //FUNCTION TO CREATE THE CORRECT EMAIL LIST IN HTML
     function createCorrMailListHTML() {
         const MailOptions = Array.from(document.getElementsByClassName('MailOption'));
         const AllNames = readTextArea();
+        let AllFormattedNames = [];
+        let Type;
 
         // Clear all ids and set the active one
         MailOptions.forEach((option, index) => {
@@ -219,8 +375,23 @@
             }
         });
 
-        // Format names and create list items
-        const AllFormattedNames = AllNames.map(name => ImprovedGetAllMailFormats(name.split(' '), Type)[`Type${Type}`]);
+
+        if (MailOptions.length < 26) {
+            AllFormattedNames = AllNames.map(name => ImprovedGetAllMailFormats(name.split(' '), Type)[`Type${Type}`]);
+        } else {
+            let SplitChar;
+
+            for (const Char of Seperators) {
+                if (this.innerHTML.slice(0, this.innerHTML.length - MailDomain.length).includes(Char)) {
+                    SplitChar = Char;
+                    break
+                }
+            }
+
+            AllFormattedNames = AllNames.map(name => ImprovedImprovedGetAllMailFormats(name.split(' '), Type, SplitChar)[`Type${Type}`]);
+        }
+
+        // Format names and create list items 
         const AllCorrMails = AllFormattedNames.map(formattedName => formattedName + MailDomain);
         AnswBoxContent.innerHTML = '';
 
@@ -249,22 +420,40 @@
     }
 
     //FUNCTION TO GET ALL MAIL FORMAT OPTIONS: CALLED WHEN CONVERT BUTTON IS PRESSED
-    function getMailFormatOptions() {
+    function getMailFormatOptions(dblClick = false) {
         MailDomain = document.getElementById("InputDomain").value;
         let SplittedFullName = document.getElementById("InputFullName").value.split(' ');
+        let MailFormatOptions;
 
         if (SplittedFullName == '') {
-            SplittedFullName = ['firstname', 'prefixes', 'surname'];
+            if (dblClick) {
+                SplittedFullName = ['firstname', 'pre', 'fixes', 'surname'];
+            } else {
+                SplittedFullName = ['firstname', 'prefixes', 'surname'];
+            }
         }
 
         if (MailDomain == '') {
             MailDomain = "@mail.com";
         }
 
+        if (dblClick) {
+            MailFormatOptions = ImprovedImprovedGetAllMailFormats(SplittedFullName, -1, Seperators[ConvertCntrEXTRA]);
+
+            if (ConvertCntrEXTRA >= Seperators.length - 1) {
+                ConvertCntrEXTRA = 0;
+            } else {
+                ConvertCntrEXTRA++;
+            }
+        } else {
+            MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
+        }
+
+
+
         if (SplittedFullName.length < 3) {
             PopUpWindow("Put in a Fullname with prefixes");
         } else {
-            const MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
             const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
             createMailFormatsListHTML(AllMailFormats);
             navigator.clipboard.writeText(AllMailFormats.join('\n'));
