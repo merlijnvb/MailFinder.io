@@ -36,10 +36,6 @@
             <div id="VisualConvertBtn" style="display: none">
             </div>
         </div>
-
-
-
-        
     </div>
 
     <section id="Top">
@@ -243,6 +239,12 @@
         }
         if (Type == 18 || Type == -1) {
             AllMailFormats['Type18'] = NameSliced.map((i, index) => index === 0 ? i + '_' : i).join('');
+        }
+        if (Type == 19 || Type == -1) {
+            AllMailFormats['Type19'] = NameSliced[0] + '.' +NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join('') + NameSliced.at(-1);
+        }
+        if (Type == 20 || Type == -1) {
+            AllMailFormats['Type20'] = NameSliced[0][0] + '.' + NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join('') + NameSliced.at(-1);
         }
 
         return AllMailFormats;
