@@ -150,7 +150,7 @@
         const indexMax = Object.values(txtTypes).findIndex(arr => arr.length === maxLength) + 1;
 
         //C: reformat the correctly split TextArea and remove any empty spaces (OTHER REFORMATIONS STILL NEED TO BE ADDED LIKE \n + " " COMBINATIONS)
-        let AllNames = txtTypes[`Type${indexMax}`].map(name => name.trim().split(/\s+/g).join(' '));
+        let AllNames = txtTypes[`Type${indexMax}`].map(name => name.trim().split(/\s+/g).join(' ')).filter(value => value !== '');
         return AllNames;
     }
 
