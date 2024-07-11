@@ -36,6 +36,10 @@
             <div id="VisualConvertBtn" style="display: none">
             </div>
         </div>
+
+
+
+        
     </div>
 
     <section id="Top">
@@ -465,7 +469,7 @@
     //FUNCTION TO GET ALL MAIL FORMAT OPTIONS: CALLED WHEN CONVERT BUTTON IS PRESSED
     function getMailFormatOptions(dblClick = false) {
         MailDomain = document.getElementById("InputDomain").value;
-        let SplittedFullName = document.getElementById("InputFullName").value.split(' ');
+        let SplittedFullName = document.getElementById("InputFullName").value.replace('\t', ' ').split(' ');
         let MailFormatOptions;
 
         if (SplittedFullName == '') {
@@ -492,16 +496,18 @@
             MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
         }
 
-
-
-        if (SplittedFullName.length < 3) {
-            PopUpWindow("Put in a Fullname with prefixes");
+        if (SplittedFullName.length <= 2) {
+            document.getElementById("InputFullName").style.color = 'red';
+        } else if (SplittedFullName.length == 3) {
+            document.getElementById("InputFullName").style.color = 'orange';
         } else {
-            const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
-            createMailFormatsListHTML(AllMailFormats);
-            navigator.clipboard.writeText(AllMailFormats.join('\n'));
-            PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
+            document.getElementById("InputFullName").style.color = 'green';
         }
+
+        const AllMailFormats = Object.keys(MailFormatOptions).map(function (key) { return MailFormatOptions[key] + MailDomain; });
+        createMailFormatsListHTML(AllMailFormats);
+        navigator.clipboard.writeText(AllMailFormats.join('\n'));
+        PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
     }
 
 
