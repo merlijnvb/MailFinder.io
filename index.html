@@ -251,6 +251,18 @@
         if (Type == 20 || Type == -1) {
             AllMailFormats['Type20'] = NameSliced[0][0] + '.' + NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join('') + NameSliced.at(-1);
         }
+        if (Type == 21 || Type == -1) {
+            AllMailFormats['Type21'] = NameSliced.at(-1) + '.' + NameSliced[0][0];
+        }
+        if (Type == 22 || Type == -1) {
+            AllMailFormats['Type22'] = NameSliced.at(-1) + NameSliced[0][0];
+        }
+        if (Type == 23 || Type == -1) {
+            AllMailFormats['Type23'] = NameSliced.slice(1, NameSliced.length).join('') + '.' + NameSliced[0][0];
+        }
+        if (Type == 24 || Type == -1) {
+            AllMailFormats['Type24'] = NameSliced.slice(1, NameSliced.length).join('') + NameSliced[0][0];
+        }
 
         return AllMailFormats;
     }
