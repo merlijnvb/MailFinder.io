@@ -1,21 +1,24 @@
-﻿:root {
-    --col-background: #FFFFFF;
-    --col-popup: black;
-    --col-popup-txt: #FFFFFF;
-    --col-txt: black;
-    --col-border: black;
-    --col-InfoDisplay: rgba(255,255,255,0.98);
-    --col-InfoDisplay-VisBack: rgba(255,255,255,0.03);
+﻿/*MAIL FORMATTER*/
+
+:root {
+    --col-background: #F0F0F0;
+    --col-background-sub: #FFFFFF;
+    --col-popup: #262626;
+    --col-popup-txt: #F0F0F0;
+    --col-txt: #262626;
+    --col-border: #262626;
+    --col-manual: rgba(255,255,255,0.95);
+    --col-manual-sub: rgba(0,0,0,0.05);
     --size-h1: calc(15px + 20 * ((53vw + 53vh) - 600px) / 820);
     --size-h1-manual: calc(7px + 11 * ((53vw + 53vh) - 600px) / 820);
     --size-h2: calc(15px + 20 * ((53vw + 53vh) - 600px) / 820);
-    --size-h3: calc(6px + 10 * ((53vw + 53vh) - 600px) / 820);
+    --size-h3: calc(10px + 10 * ((53vw + 53vh) - 600px) / 820);
     --size-h4: calc(8px + 12 * ((53vw + 53vh) - 600px) / 820);
     --size-p-info: calc(5px + 12 * ((53vw + 53vh) - 600px) / 820);
     --size-p-landing: calc(7px + 10 * ((53vw + 53vh) - 600px) / 820);
     --size-p-popup: calc(7px + 10 * ((53vw + 53vh) - 600px) / 820);
+    --size-border-info: calc(2px + 3 * ((45vw + 45vh) - 600px) / 820);
 }
-
 
 * {
     margin: 0;
@@ -29,13 +32,287 @@
 html, body {
     width: 100%;
     height: 100%;
-    background-color: var(--col-background);
-    display: contents;
+    background-color: var(--col-background-sub)
 }
-body{
+
+#Tool{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+#ToolInput, #ToolOutput {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#ToolInput {
+    background-color: var(--col-background);
+}
+
+#TI_data {
+    width: 90%;
+    height: 40%;
+    overflow: hidden;
+    display: grid;
+    margin: auto;
+}
+
+#TO_data {
+    height: calc(90% - 8px);
+    width: calc(90% - 8px);
+    padding: 8px;
+    margin: auto;
+    background-color: var(--col-background);
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
+    resize: none;
+}
+
+#TI_data > h1 {
+    font-size: var(--size-h1);
+    font-weight: 1000;
+    cursor: pointer;
+    width: fit-content;
+    margin: auto;
+}
+
+#TI_data > span{
+    width: 70%;
+    height: 40%;
+    margin: auto;
+    display: flex;
+}
+
+#TI_data > span > *{
+    margin: auto;
+}
+
+#TI_data > span > input{
+    height: 90%;
+    width: 75%;
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
+    padding-left: 2.5%;
+    background: var(--col-background-sub);
+}
+
+#TI_data > span > p{
+    font-weight: 1000;
+}
+
+
+#TI_data > button{
+    width: 30%;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
+    margin: auto;
+    background: var(--col-background-sub);
+}
+
+#TI_form {
+    width: 90%;
+    height: 40%;
+    margin: auto;
+    background-color: var(--col-background-sub);
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
     position: relative;
 }
 
+.TI_form_ul {
+    width: 55%;
+    height: 100%;
+    list-style-type: none;
+}
+.TI_form_ul:not(:last-child) {
+    border-right: 1px solid var(--col-border);
+}
+
+.TI_form_li {
+    height: 10%;
+    align-content: center;
+    padding-left: 5%;
+}
+
+.TI_form_li:nth-child(even) {
+    background-color: var(--col-background);
+}
+
+.TI_form_li:hover{
+    font-weight: 1000;
+}
+
+.TI_form_ul > #active {
+    color: red;
+    font-weight: 1000;
+}
+
+@keyframes PopUp1 {
+    0% {
+        margin: -10% 50%
+    }
+
+    25% {
+        margin: 4% 50%
+    }
+
+    75% {
+        margin: 4% 50%
+    }
+
+    100% {
+        margin: -10% 50%
+    }
+}
+
+@keyframes PopUp2 {
+    0% {
+        margin: -10% 50%
+    }
+
+    25% {
+        margin: 4% 50%
+    }
+
+    75% {
+        margin: 4% 50%
+    }
+
+    100% {
+        margin: -10% 50%
+    }
+}
+
+#PopUpBox {
+    position: absolute;
+    border-radius: 12px;
+    margin: -10% 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    aspect-ratio: 4/1;
+    align-content: center;
+    text-align: center;
+    background-color: var(--col-popup);
+    color: var(--col-popup-txt);
+    font-size: var(--size-p-popup);
+}
+
+#BtnManual {
+    position: absolute;
+    font-size: var(--size-h1);
+    font-weight: 500;
+    margin-top: 25px;
+    margin-left: 25px;
+    width: 50px;
+    height: 50px;
+    border: var(--size-border-info) solid;
+    border-color: var(--col-popup);
+    border-radius: 100%;
+    text-align: center;
+    align-content: center;
+    cursor: pointer;
+    color: var(--col-popup);
+    z-index: 2;
+}
+
+#OffScrnManual {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#Manual {
+    position: absolute;
+    width: 80%;
+    height: 90%;
+    margin: 2.5% 10%;
+    z-index: 2;
+    background-color: var(--col-manual);
+    border: 4px solid var(--col-manual) inset;
+    border-radius: 16px;
+    display: flex;
+    overflow: hidden;
+}
+
+#ManualInfoBox {
+    width: 50%;
+    height: 100%;
+    background-color: var(--col-manual);
+}
+
+#ManualVisBox {
+    width: 50%;
+    height: 100%;
+    background-color: var(--col-manual-sub);
+}
+
+#ManualInfo {
+    top: 15%;
+    width: 50%;
+    height: 85%;
+    position: absolute;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#ManualInfoHead {
+    width: 50%;
+    height: 15%;
+    position: absolute;
+    align-content: center;
+}
+
+#ManualInfoHead > h2 {
+    font-size: var(--size-h2);
+    font-weight: 1000;
+    color: var(--col-popup-txt);
+    text-align: center;
+}
+
+.ManualArticle {
+    margin-left: 5%;
+    margin-top: 1%;
+    margin-bottom: 10%;
+    width: 100%;
+}
+
+.ManualArticle > * {
+    color: var(--col-popup-txt);
+}
+
+
+.ManualArticle > h3 {
+    font-size: var(--size-h3);
+}
+
+.ManualArticle > p{
+    width: 90%;
+    font-size: var(--size-p-info);
+}
+
+.ManualArticle > p > b{
+    color: var(--col-popup-txt);
+}
+
+#feedback {
+    position: absolute;
+    top: 97%;
+    left: 50%;
+    transform: translateX(-50%);
+    font: var(--size-p-landing);
+    color: red;
+    font-weight: 1000;
+}
+
+/*
 section {
     width: 100%;
     height: 50%;
@@ -165,20 +442,19 @@ ul{
 
 .InfoBtn {
     position: absolute;
-    font-size: 30px;
-    font-weight: 900;
+    font-size: var(--size-h1);
+    font-weight: 500;
     margin-top: 25px;
     margin-left: calc(100% - 75px);
-    background-color: var(--col-txt);
-    opacity: 0.75;
-    color: black;
     width: 50px;
     height: 50px;
+    border: var(--size-border-info) solid;
+    border-color: var(--col-popup);
     border-radius: 100%;
     text-align: center;
     align-content: center;
     cursor: pointer;
-    color: var(--col-background);
+    color: var(--col-popup);
     z-index: 2;
 }
 

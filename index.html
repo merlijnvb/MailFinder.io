@@ -3,82 +3,88 @@
 <head>
     <meta charset="utf-8" />
     <title>Mail Finder</title>
-    <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/x-icon" href="MFicon.ico">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <!-- THIS IS THE POPUP BOX THAT WILL POP UP WITH A CERTAIN TEXT CONTENT CALLED VIA JAVASCRIPT -->
     <div id="PopUpBox"></div>
-    <div class="InfoBtn" id="inactiveBtn" onclick="DisplayInfo()">i</div>
-    <span id="offWindowBtn" style="display: none;" onclick="DisplayInfo()"></span>
-    <div id="InfoDisplay" style="display: none;">
-        <div id="InfoDisText">
-            <div class="InfoContent" id="info_content_first">
+    <div id="BtnManual" onclick="ManualDisplay()">i</div>
+    <div id="OffScrnManual" onclick="ManualDisplay()" style="display: none;"></div>
+    <a id="feedback" href="https://forms.office.com/e/K6kQG18t7K" target="_blank">Click me to give feedback. For when the website does not work or for other feedback.</a>
+
+    <section id="Manual" style="display: none;">
+        <div id="ManualInfoBox">
+            <div id="ManualInfoHead">
                 <h2>Mail Finder Manual</h2>
-                <h3>Double-click the convert button:</h3>
-                <p>When you double press the convert button you will get a larget set of E-mail formats. If you would double press the convert button again it changes the seperation typogrophy to a different set. This should ensure you will always find a valid E-mail when checking the format list.</p>
-                <div id="BtnShowCase" onmouseover="DisplayVisual(1)">
-                    <button id="DummyConvertBtn">convert</button>
+            </div>
+            <div id="ManualInfo">
+                <div class="ManualArticle" id="0">
+                    <h3>The basics</h3>
+                    <p>
+                        Paste your contacts list in the right input area. Select one contact with corresponding @domain.com. Click the convert button to get a list of potential
+                        mail formats. Click the right format and your whole list is formatted to the chosen format.
+                    </p>
+                </div>
+                <div class="ManualArticle" id="1">
+                    <h3>Advanced formats</h3>
+                    <p>
+                        By double-clicking on the convert button you change to the advanced email format list. By double clicking again you will shuffle through the formats
+                        with different seperators: <b>, . - _</b>
+                    </p>
+                </div>
+                <div class="ManualArticle" id="1">
+                    <h3>Color code</h3>
+                    <p>
+                        Your input contact has color coding: <br><br>
+                        <b>Green:</b> firstname prefix prefix lastname <br>
+                        <b>Orange:</b> firstname prefix lastname <br>
+                        <b>Red:</b> firstname lastname
+                    </p>
+                </div>
+                <div class="ManualArticle" id="2">
+                    <h3>Set page theme</h3>
+                    <p>
+                        You can change your color mode by clicking on the title of the page.
+                    </p>
+                </div>
+                <div class="ManualArticle" id="2">
+                    <h3>Clear input</h3>
+                    <p>
+                        By double-clicking the input areas you can fast clear the inputs.
+                    </p>
                 </div>
             </div>
-            <div class="InfoContent" id="info_content_second">
-                <h3>Set page theme:</h3>
-                <p>You can change your color mode by clicking on the title of the page</p>
-                <div id="TitleShowCase" onmouseover="DisplayVisual(2)">
-                    <h1 id="DummyTitle" onclick="changeLightModus('dark')">Converting your list of contacts into emails</h1>
-                </div>
-            </div>
-            <div class="InfoContent" id="info_content_third">
-                <h3>Auto format & copy</h3>
-                <p>You can paste whatever format text into your input fields and this programm can read it! Also when doing actions on page, the results will automatically be copied to your clipboard so your validation process is even faster.</p>
-            </div>
         </div>
-        <div id="InfoDisVis">
-            <div id="VisualConvertBtn" style="display: none">
-            </div>
-        </div>
+        <div id="ManualVisBox">
 
-
-
-        
-    </div>
-
-    <section id="Top">
-        <div class="Left">
-            <h1 id="LightModus" onclick="changeLightModus('dark')">Converting your list of contacts into emails</h1>
-            <h4>
-                Please enter the full name and email domain of one of your contacts into the designated input fields.
-                Upon clicking the ‘Convert’ button, a list of potential email addresses will be generated and automatically
-                copied to your clipboard. To organize your entire contact list, choose the appropriate email address and paste your contacts into the text area on the right.
-            </h4>
-
-            <!-- INPUT SECTION: -->
-            <span>Fullname: <input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" /></span>
-            <span>Domain: <input type="text" placeholder="@domain.com" id="InputDomain" /></span>
-            <button id="btn_convert" onclick="getMailFormatOptions()" ondblclick="getMailFormatOptions(true)">Convert</button>
-        </div>
-        <div class="Right">
-
-            <!-- LARGE INPUT SECTION -->
-            <textarea id="allNames" ondblclick="refreshTextArea()">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
-    <section id="Bot">
 
-        <!-- MAIL DISPLAYS THAT WILL UPDATE WHEN INPUTS ARE GIVEN -->
-        <div class="Left" id="MailFormatsBox">
-            <ul id="MailFormatsContent"></ul>
+    <section id="Tool">
+        <div id="ToolInput">
+            <div id="TI_data">
+                <h1 id="LightModus" onclick="changeLightModus('dark')">Mail Finder</h1>
+                <span><p>Fullname: </p><input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" ondblclick="clearInput('InputFullName')" /></span>
+                <span><p>Domain: </p><input type="text" placeholder="@domain.com" id="InputDomain" ondblclick="clearInput('InputDomain')" /></span>
+                <button id="BtnCnvrt" onclick="getMailFormatOptions()" ondblclick="getMailFormatOptions(true)">Convert</button>
+
+            </div>
+            <div id="TI_form">
+                <!--FORMATS ARE PROJECTED HERE-->
+            </div>
         </div>
-        <div class="Right" id="CorrMailsBox">
-            <ul id="CorrMailsContent"></ul>
+
+        <div id="ToolOutput">
+            <textarea id="TO_data" ondblclick="clearInput('TO_data')">Fullname prefixes Surname, Fullname prefixes Surname, Fullname prefixes Surname</textarea>
         </div>
     </section>
 </body>
 
 <script>
-    const TextBoxContent = document.getElementById('MailFormatsContent');
-    const AnswBoxContent = document.getElementById('CorrMailsContent');
+    const AnswBoxContent = document.getElementById('TO_data');
     let MailDomain = document.getElementById("InputDomain").value;
+    let ManualState = false;
     let counter = true;
     let ConvertCntrEXTRA = 0;
     let firstContact = '';
@@ -96,32 +102,29 @@
             case 'dark':
                 //CHANGE INPUT STATUS TO LIGHT MODUS ON BUTTON
                 document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('light')");
-                document.getElementById('DummyTitle').setAttribute("onclick", "changeLightModus('light')");
-                document.getElementById('VisualConvertBtn').style.backgroundImage = 'url(convert2.gif)';
                 //CHANGE CSS GLOBAL VARIABLES TO DARK THEME
-                document.documentElement.style.setProperty("--col-background", 'black');
-                document.documentElement.style.setProperty("--col-popup", '#FFFFFF');
-                document.documentElement.style.setProperty("--col-popup-txt", 'black');
-                document.documentElement.style.setProperty("--col-txt", '#FFFFFF');
-                document.documentElement.style.setProperty("--col-border", '#FFFFFF');
-                document.documentElement.style.setProperty("--col-InfoDisplay", 'rgba(255,255,255,0.98)');
-                document.documentElement.style.setProperty("--col-InfoDisplay-VisBack", 'rgba(0,0,0,0.03)');
-
+                document.documentElement.style.setProperty("--col-background", '#262626');
+                document.documentElement.style.setProperty("--col-background-sub", '#000000');
+                document.documentElement.style.setProperty("--col-popup", '#F0F0F0');
+                document.documentElement.style.setProperty("--col-popup-txt", '#262626');
+                document.documentElement.style.setProperty("--col-txt", '#F0F0F0');
+                document.documentElement.style.setProperty("--col-border", '#F0F0F0');
+                document.documentElement.style.setProperty("--col-manual", 'rgba(255,255,255,0.95)');
+                document.documentElement.style.setProperty("--col-manual-sub", 'rgba(0,0,0,0.05)');
                 break;
             case 'light':
                 //CHANGE INPUT STATUS TO LIGHT MODUS ON BUTTON
                 document.getElementById('LightModus').setAttribute("onclick", "changeLightModus('dark')");
-                document.getElementById('DummyTitle').setAttribute("onclick", "changeLightModus('dark')");
-                document.getElementById('VisualConvertBtn').style.backgroundImage = 'url(convert1.gif)';
-                //CHANGE CSS GLOBAL VARIABLES TO DARK THEME
-                document.documentElement.style.setProperty("--col-background", '#FFFFFF');
-                document.documentElement.style.setProperty("--col-popup", 'black');
-                document.documentElement.style.setProperty("--col-popup-txt", '#FFFFFF');
-                document.documentElement.style.setProperty("--col-txt", 'black');
-                document.documentElement.style.setProperty("--col-border", 'black');
-                document.documentElement.style.setProperty("--col-InfoDisplay", 'rgba(0,0,0,0.98)');
-                document.documentElement.style.setProperty("--col-InfoDisplay-VisBack", 'rgba(255,255,255,0.03)');
-
+                //CHANGE CSS GLOBAL VARIABLES TO LIGHT THEME
+                document.documentElement.style.setProperty("--col-background", '#F0F0F0');
+                document.documentElement.style.setProperty("--col-background-sub", '#FFFFFF');
+                document.documentElement.style.setProperty("--col-popup", '#262626');
+                document.documentElement.style.setProperty("--col-popup-txt", '#F0F0F0');
+                document.documentElement.style.setProperty("--col-txt", '#262626');
+                document.documentElement.style.setProperty("--col-border", '#262626');
+                document.documentElement.style.setProperty("--col-manual", 'rgba(0,0,0,0.95)');
+                document.documentElement.style.setProperty("--col-manual-sub", 'rgba(255,255,255,0.05)');
+                document.getElementById('VisualConvertBtn').style.backgroundImage = 'url(SalesNavWhite.gif)';
                 break;
             default:
                 //IF AN ERROR OCCURS IT SHOULD DEFAULT ITSELF TO LIGHT MODUS
@@ -129,14 +132,14 @@
         }
     }
 
-    //CLEAR TEXTAREA OF INNERTEXT WHEN DIV IS DOUBLE CLICKED
-    function refreshTextArea() {
-        document.getElementById('allNames').value = '';
+    //CLEAR INPUT VALUE OF ELEMENT
+    function clearInput(DivID) {
+        document.getElementById(DivID).value = '';
     }
 
     //FUNCTION THAT READS THE TEXT AREA
     function readTextArea() {
-        const TextArea = document.getElementById('allNames');
+        const TextArea = document.getElementById('TO_data');
         const txt = TextArea.value;
         const txtTypes = {};
 
@@ -252,16 +255,7 @@
             AllMailFormats['Type20'] = NameSliced[0][0] + '.' + NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join('') + NameSliced.at(-1);
         }
         if (Type == 21 || Type == -1) {
-            AllMailFormats['Type21'] = NameSliced.at(-1) + '.' + NameSliced[0][0];
-        }
-        if (Type == 22 || Type == -1) {
-            AllMailFormats['Type22'] = NameSliced.at(-1) + NameSliced[0][0];
-        }
-        if (Type == 23 || Type == -1) {
-            AllMailFormats['Type23'] = NameSliced.slice(1, NameSliced.length).join('') + '.' + NameSliced[0][0];
-        }
-        if (Type == 24 || Type == -1) {
-            AllMailFormats['Type24'] = NameSliced.slice(1, NameSliced.length).join('') + NameSliced[0][0];
+            AllMailFormats['Type21'] = NameSliced.at(-1)[0] + NameSliced.slice(1, NameSliced.length - 1).map(i => i[0]).join('') + NameSliced[0][0];
         }
 
         return AllMailFormats;
@@ -421,7 +415,7 @@
 
     //FUNCTION TO CREATE THE CORRECT EMAIL LIST IN HTML
     function createCorrMailListHTML() {
-        const MailOptions = Array.from(document.getElementsByClassName('MailOption'));
+        const MailOptions = Array.from(document.getElementsByClassName('TI_form_li'));
         const AllNames = readTextArea();
         let AllFormattedNames = [];
         let Type;
@@ -468,15 +462,32 @@
 
     //FUNCTION TO CREATE THE EMAIL FORMAT OPTIONS LIST IN HTML
     function createMailFormatsListHTML(AllMailFormats) {
-        TextBoxContent.innerHTML = '';
+        const FormatOptionsBox = document.getElementById('TI_form');
+        const Iterations = Math.ceil(AllMailFormats.length / 10);
 
-        AllMailFormats.forEach(MailOption => {
-            const li_MailOption = document.createElement('li');
-            li_MailOption.innerText = MailOption;
-            li_MailOption.classList.add('MailOption');
-            li_MailOption.addEventListener("click", createCorrMailListHTML);
-            TextBoxContent.appendChild(li_MailOption);
-        });
+        FormatOptionsBox.innerHTML = '';
+
+        for (let i = 0; i < Iterations; i++) {
+            const TI_form_ul = document.createElement('ul');
+            TI_form_ul.classList.add('TI_form_ul');
+            FormatOptionsBox.appendChild(TI_form_ul);
+
+            let MailSlice;
+
+            if (i + 1 <= Iterations) {
+                MailSlice = AllMailFormats.slice(i * 10, 10 + i * 10);
+            } else {
+                MailSlice = AllMailFormats.slice(i * 10, -1);
+            }
+
+            MailSlice.forEach(MailOption => {
+                const TI_form_li = document.createElement('li');
+                TI_form_li.innerText = MailOption;
+                TI_form_li.classList.add('TI_form_li');
+                TI_form_li.addEventListener("click", createCorrMailListHTML);
+                TI_form_ul.appendChild(TI_form_li);
+            });
+        }
     }
 
     //FUNCTION TO GET ALL MAIL FORMAT OPTIONS: CALLED WHEN CONVERT BUTTON IS PRESSED
@@ -523,19 +534,15 @@
         PopUpWindow("All possible ***mailing formats*** are copied to your clipboard");
     }
 
-
-
-    function DisplayInfo() {
-        let InfoStatus = document.getElementsByClassName('InfoBtn')[0].id;
-
-        if (InfoStatus == 'inactiveBtn') {
-            document.getElementsByClassName('InfoBtn')[0].id = 'activeBtn';
-            document.getElementById('InfoDisplay').style.display = 'unset';
-            document.getElementById('offWindowBtn').style.display = 'unset';
+    function ManualDisplay() {
+        if (ManualState) {
+            document.getElementById('OffScrnManual').style.display = 'none';
+            document.getElementById('Manual').style.display = 'none';
+            ManualState = false;
         } else {
-            document.getElementsByClassName('InfoBtn')[0].id = 'inactiveBtn';
-            document.getElementById('InfoDisplay').style.display = 'none';
-            document.getElementById('offWindowBtn').style.display = 'none';
+            document.getElementById('OffScrnManual').style.display = 'unset';
+            document.getElementById('Manual').style.display = 'unset';
+            ManualState = true;
         }
     }
 
