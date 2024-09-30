@@ -102,7 +102,17 @@ html, body {
 }
 
 
-#TI_data > button{
+#TI_data > span > button{
+    width: 60%;
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--col-border);
+    border-radius: 4px;
+    margin: auto;
+    background: var(--col-background-sub);
+}
+
+#TI_data > span > select {
     width: 30%;
     cursor: pointer;
     background: none;
@@ -110,6 +120,7 @@ html, body {
     border-radius: 4px;
     margin: auto;
     background: var(--col-background-sub);
+    text-align: center;
 }
 
 #TI_form {
@@ -310,251 +321,4 @@ html, body {
     font: var(--size-p-landing);
     color: red;
     font-weight: 1000;
-}
-
-/*
-section {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    overflow: hidden;
-}
-
-.Left{
-    width: 40%;
-    height: 50%;
-}
-.Right {
-    width: 40%;
-    height: 50%;
-}
-
-#Top > .Left{
-    width: 50%;
-    height: 90%;
-    display: grid;
-}
-#Top > .Left > *, #Top > .Right > *{
-    margin: auto;
-}
-#Top > .Right {
-    width: 50%;
-    height: 90%;
-    display: grid;
-}
-
-h1 {
-    font-size: var(--size-h1);
-    width: 90%;
-}
-
-h1:hover{
-    cursor: pointer;
-}
-
-h4 {
-    font-size: var(--size-h4);
-    font-weight: 100;
-    width: 90%;
-}
-
-span{
-    width: 70%;
-}
-input {
-    width: 75%;
-    border: 1px solid var(--col-border);
-    border-radius: 4px;
-    padding-left: 2.5%;
-    background: none;
-}
-
-button {
-    width: 30%;
-    cursor: pointer;
-    background: none;
-    border: 1px solid var(--col-border);
-    border-radius: 4px;
-}
-
-textarea {
-    width: 90%;
-    height: 90%;
-    padding: 5px;
-    background: none;
-    border: 1px solid var(--col-border);
-    border-radius: 4px;
-}
-
-#MailFormatsBox, #CorrMailsBox {
-    height: 90%;
-    overflow-y: auto;
-    border: 1px solid var(--col-border);
-    border-radius: 4px;
-}
-
-ul{
-    padding-left: 5%;
-}
-
-.MailOption:hover {
-    color: rgba(255,0,0,0.5);
-    font-weight:600;
-    cursor: pointer;
-}
-
-.CorrMail:hover{
-    cursor: pointer;
-}
-#active {
-    color: red;
-}
-
-@keyframes PopUp1{
-    0% {margin: -10% 50%}
-    25% {margin: 4% 50%}
-    75% {margin: 4% 50%}
-    100% {margin: -10% 50%}
-}
-
-@keyframes PopUp2{
-    0% {margin: -10% 50%}
-    25% {margin: 4% 50%}
-    75% {margin: 4% 50%}
-    100% {margin: -10% 50%}
-}
-
-#PopUpBox {
-    position: absolute;
-    border-radius: 12px;
-    margin: -10% 50%;
-    transform: translateX(-50%);
-    width: 20%;
-    aspect-ratio: 4/1;
-    align-content: center;
-    text-align: center;
-    background-color: var(--col-popup);
-    color: var(--col-popup-txt);
-    font-size: var(--size-p-popup);
-}
-
-.InfoBtn {
-    position: absolute;
-    font-size: var(--size-h1);
-    font-weight: 500;
-    margin-top: 25px;
-    margin-left: calc(100% - 75px);
-    width: 50px;
-    height: 50px;
-    border: var(--size-border-info) solid;
-    border-color: var(--col-popup);
-    border-radius: 100%;
-    text-align: center;
-    align-content: center;
-    cursor: pointer;
-    color: var(--col-popup);
-    z-index: 2;
-}
-
-#offWindowBtn{
-    background-color: rgba(255,0,0,0);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-#InfoDisplay {
-    position: absolute;
-    width: 80%;
-    height: 90%;
-    margin: 2.5% 10%;
-    z-index: 2;
-    background-color: var(--col-InfoDisplay);
-    border: 4px solid var(--col-InfoDisplay);
-    border-radius: 16px;
-    display: flex;
-    overflow: hidden;
-}
-
-#InfoDisText{
-    width: 50%;
-    height: 100%;
-    position: absolute;
-}
-#InfoDisVis {
-    width: 50%;
-    height: 100%;
-    background: var(--col-InfoDisplay-VisBack);
-    position: absolute;
-    margin-left: 50%;
-    display: flex;
-}
-
-.InfoContent {
-    margin-left: 5%;
-    margin-top: 1%;
-    height: 33%;
-    width: 100%;
-}
-
-.InfoContent > *{
-    color: var(--col-background);
-}
-
-.InfoContent > h2{
-    font-size: var(--size-h2);
-    font-weight: 1000;
-    margin-bottom: 1%;
-}
-
-.InfoContent > h3 {
-    font-size: var(--size-h3);
-    font-weight: 800;
-    margin-bottom: 1%;
-}
-
-.InfoContent > p{
-    width: 90%;
-    font-size: var(--size-p-info);
-}
-
-#BtnShowCase {
-    margin: 2% 2%;
-    background: var(--col-background);
-    width: 80%;
-    height: 25%;
-    display: flex;
-    border-radius: 2px;
-}
-
-#BtnShowCase > button {
-    width: 60%;
-    height: 60%;
-    margin: auto;
-}
-#VisualConvertBtn {
-    height: 80%;
-    width: 90%;
-    margin: auto;
-    background-image: url(convert1.gif);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    overflow: hidden;
-}
-#TitleShowCase {
-    margin: 2% 2%;
-    background: var(--col-background);
-    width: 80%;
-    height: 25%;
-    display: flex;
-    border-radius: 2px;
-    display: flex;
-}
-#TitleShowCase > h1 {
-    font-size: var(--size-h1-manual);
-    margin: auto;
 }

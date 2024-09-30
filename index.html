@@ -67,8 +67,15 @@
                 <h1 id="LightModus" onclick="changeLightModus('dark')">Mail Finder</h1>
                 <span><p>Fullname: </p><input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" ondblclick="clearInput('InputFullName')" /></span>
                 <span><p>Domain: </p><input type="text" placeholder="@domain.com" id="InputDomain" ondblclick="clearInput('InputDomain')" /></span>
-                <button id="BtnCnvrt" onclick="getMailFormatOptions()" ondblclick="getMailFormatOptions(true)">Convert</button>
-
+                <span>
+                    <button id="BtnCnvrt" onclick="getMailFormatOptions()">Convert</button>
+                    <select id="BtnModus">
+                        <option value="general">general</option>
+                        <option value="dot">.</option>
+                        <option value="minus">-</option>
+                        <option value="underscore">_</option>
+                    </select>
+                </span>
             </div>
             <div id="TI_form">
                 <!--FORMATS ARE PROJECTED HERE-->
@@ -491,31 +498,26 @@
     }
 
     //FUNCTION TO GET ALL MAIL FORMAT OPTIONS: CALLED WHEN CONVERT BUTTON IS PRESSED
-    function getMailFormatOptions(dblClick = false) {
+    function getMailFormatOptions() {
         MailDomain = document.getElementById("InputDomain").value;
+        const BtnModus = document.getElementById("BtnModus").value;
         let SplittedFullName = document.getElementById("InputFullName").value.replace('\t', ' ').split(' ');
         let MailFormatOptions;
 
         if (SplittedFullName == '') {
-            if (dblClick) {
-                SplittedFullName = ['firstname', 'pre', 'fixes', 'surname'];
-            } else {
-                SplittedFullName = ['firstname', 'prefixes', 'surname'];
-            }
+            SplittedFullName = ['firstname', 'prefixes', 'surname'];
         }
 
         if (MailDomain == '') {
             MailDomain = "@mail.com";
         }
 
-        if (dblClick) {
-            MailFormatOptions = ImprovedImprovedGetAllMailFormats(SplittedFullName, -1, Seperators[ConvertCntrEXTRA]);
-
-            if (ConvertCntrEXTRA >= Seperators.length - 1) {
-                ConvertCntrEXTRA = 0;
-            } else {
-                ConvertCntrEXTRA++;
-            }
+        if (BtnModus == 'dot') {
+            MailFormatOptions = ImprovedImprovedGetAllMailFormats(SplittedFullName, -1, '.');
+        } else if (BtnModus == 'minus') {
+            MailFormatOptions = ImprovedImprovedGetAllMailFormats(SplittedFullName, -1, '-');
+        } else if (BtnModus == 'underscore') {
+            MailFormatOptions = ImprovedImprovedGetAllMailFormats(SplittedFullName, -1, '_');
         } else {
             MailFormatOptions = ImprovedGetAllMailFormats(SplittedFullName, -1);
         }
