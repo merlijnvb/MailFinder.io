@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Mail Finder</title>
+    <title>Mail Formatter</title>
     <link rel="icon" type="image/x-icon" href="MFicon.ico">
     <link rel="stylesheet" href="index.css">
 </head>
@@ -16,7 +16,7 @@
     <section id="Manual" style="display: none;">
         <div id="ManualInfoBox">
             <div id="ManualInfoHead">
-                <h2>Mail Finder Manual</h2>
+                <h2>Mail Formatter Manual</h2>
             </div>
             <div id="ManualInfo">
                 <div class="ManualArticle" id="0">
@@ -29,8 +29,9 @@
                 <div class="ManualArticle" id="1">
                     <h3>Advanced formats</h3>
                     <p>
-                        By double-clicking on the convert button you change to the advanced email format list. By double clicking again you will shuffle through the formats
-                        with different seperators: <b>, . - _</b>
+                        By clicking on the drop-down list next to the convert button you can change to the advanced email format list. You can select a character by clicking on it.
+                        The general is option is the default option, this will present you all the most used formats. The other characters will return a more advanced list of formats, with the
+                        selected character as a seperator. 
                     </p>
                 </div>
                 <div class="ManualArticle" id="1">
@@ -64,7 +65,7 @@
     <section id="Tool">
         <div id="ToolInput">
             <div id="TI_data">
-                <h1 id="LightModus" onclick="changeLightModus('dark')">Mail Finder</h1>
+                <h1 id="LightModus" onclick="changeLightModus('dark')">Mail Formatter</h1>
                 <span><p>Fullname: </p><input type="text" placeholder="Firstname prefixes Surname" id="InputFullName" ondblclick="clearInput('InputFullName')" /></span>
                 <span><p>Domain: </p><input type="text" placeholder="@domain.com" id="InputDomain" ondblclick="clearInput('InputDomain')" /></span>
                 <span>
